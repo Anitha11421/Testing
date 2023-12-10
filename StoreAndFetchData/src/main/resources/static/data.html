@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Application Information</title>
+</head>
+
+<body>
+	<h1 style="text-align:center;">Registration Form</h1>
+	<div>
+		<center>
+		<form id="dataForm">
+			<label for="nameInput">Enter a Name: </label>
+			<input type="text" id="nameInput" name="name"><br><br>
+			<label for="phonenoInput">Enter Your PhoneNo: </label>
+            <input type="number" id="phonenoInput" name="phoneno"><br><br>
+            <label for="emailInput">Enter the Email: </label>
+			<input type="email" id="emailInput" name="email"><br><br>
+			<label for="companynameInput">Enter CompanyName: </label>
+			<input type="text" id="companynameInput" name="companyname"><br><br>
+			<label for="passwordInput">Enter Password: </label>
+			<input type="password" id="passwordInput" name="password"><br><br>
+			<label for="conformpasswordInput">Enter Confirmpassword: </label>
+			<input type="password" id="conformpasswordInput" name="conformpassword"><br><br>
+			<button type="button" onclick="insertData()">Insert Data</button><br><br><br>
+			<button type="button" onclick="location.href='fetchdata.html'">Fetch here</button>
+		</form >
+		</center>
+	</div>
+	<div id="data"></div>
+
+	<script>
+		function insertData() {
+			const nameInput = document.getElementById('nameInput').value;
+  			const phonenoInput = document.getElementById('phonenoInput').value;
+  			const emailInput = document.getElementById('emailInput').value;
+  			const companynameInput = document.getElementById('companynameInput').value;
+  			const passwordInput = document.getElementById('passwordInput').value;
+  			const conformpasswordInput = document.getElementById('conformpasswordInput').value;
+
+			fetch(`http://localhost:8080/api/test/insert/${nameInput}/${phonenoInput}/${emailInput}/${companynameInput}/${passwordInput}/${conformpasswordInput}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+				.then(response => {
+					if (!response.ok) {
+						throw Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then(data => {
+					displayData(data);
+					console.log('API Response:', data);
+				})
+				.catch(error => {
+					console.error('There was a problem with the fetch operation:', error);
+				});
+		}
+
+		function displayData(data) {
+			const dataContainer = document.getElementById('data');
+			if (data && data.name) {
+				dataContainer.innerHTML = '<h1 style="text-align:center;">' + "Thank You " + data.name + '</h1>';
+			} else {
+				dataContainer.innerHTML = '<p>Data not found or has no "name" property.</p>';
+			}
+		}
+	</script>
+</body>
+
+</html>                                  
