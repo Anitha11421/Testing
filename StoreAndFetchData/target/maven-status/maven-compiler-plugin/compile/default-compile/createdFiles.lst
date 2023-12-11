@@ -1,0 +1,5 @@
+com\storefetchdata\FetchResponse.class
+com\storefetchdata\StoreAndFetchDataApplication.class
+com\storefetchdata\DataTest.class
+com\storefetchdata\DataResponse.class
+com\storefetchdata\DataResponseRepository.class
