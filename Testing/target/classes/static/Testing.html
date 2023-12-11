@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>REST API Example</title>
+</head>
+
+<body>
+	<h1>REST API Data</h1>
+	<div>
+		<form id="dataForm">
+			<label for="nameInput">Enter a Name: </label>
+			<input type="text" id="nameInput" name="name">
+			<label for="descriptionInput">Enter a Description: </label>
+            <input type="text" id="descriptionInput" name="description">
+			<button type="button" onclick="insertData()">Insert Data</button>
+		</form>
+	</div>
+	<div id="data"></div>
+
+	<script>
+		function insertData() {
+			const nameInput = document.getElementById('nameInput').value;
+  			const descriptionInput = document.getElementById('descriptionInput').value;
+
+			fetch(`http://localhost:8080/api/test/insert/${nameInput}/${descriptionInput}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+				.then(response => {
+					if (!response.ok) {
+						throw Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then(data => {
+					displayData(data);
+					console.log('API Response:', data);
+				})
+				.catch(error => {
+					console.error('There was a problem with the fetch operation:', error);
+				});
+		}
+
+		function displayData(data) {
+			const dataContainer = document.getElementById('data');
+			if (data && data.name) {
+				dataContainer.innerHTML = '<h1>' + "Welcome to my world " + data.name + '</h1>';
+			} else {
+				dataContainer.innerHTML = '<p>Data not found or has no "name" property.</p>';
+			}
+		}
+	</script>
+</body>
+
+</html>                                  
